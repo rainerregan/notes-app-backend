@@ -1,15 +1,27 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import connectDB from './mongodb/connect';
+import connectDB from './mongodb/connect.js';
+import bodyParser from 'body-parser';
+import noteRouter from './routes/note.routes.js'
 
+// Config Dotenv
 dotenv.config();
+
+// Express App
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('This is the home page')
-})
+// Middlewares
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
+// Routes
+app.get('/', (req, res) => {
+  res.status(200).json({ message: "OK" });
+});
+
+app.use('/api/v1/notes', noteRouter);
+
+// Server Starter
 const startServer = () => {
   try {
     connectDB(process.env.MONGODB_URL)
