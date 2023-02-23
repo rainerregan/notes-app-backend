@@ -19,12 +19,17 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: "OK" });
 });
 
+// Using Router for Note Routes
 app.use('/api/v1/notes', noteRouter);
 
 // Server Starter
 const startServer = () => {
   try {
-    connectDB(process.env.MONGODB_URL)
+
+    // Connect to MongoDB Database
+    connectDB(process.env.MONGODB_URL);
+    
+    // Listen to requests
     app.listen(process.env.NODE_PORT, () => {
       console.log(`Server started at ${process.env.SERVER_URL}:${process.env.NODE_PORT}`)
     });
